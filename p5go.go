@@ -14,10 +14,6 @@ type Processing interface {
 	Draw(*Window)
 }
 
-type Window struct {
-	window *glfw.Window
-}
-
 func NewProgramm(processing Processing) Programm {
 	return Programm{proc: processing}
 }

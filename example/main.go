@@ -19,8 +19,11 @@ func main() {
 }
 
 func (m *model) Setup() *p5go.Window {
+	c := p5go.Canvas(640, 480)
 
+	return c
 }
 
 func (m *model) Draw(window *p5go.Window) {
+
 }
