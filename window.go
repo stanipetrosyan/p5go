@@ -21,3 +21,10 @@ func Canvas(width, height int) *Window {
 
 	return &Window{window: window}
 }
+
+func (w *Window) Background(red, green, blue int) {
+	r_float := (1.0 / 255) * float32(red)
+	g_float := (1.0 / 255) * float32(green)
+	b_float := (1.0 / 255) * float32(blue)
+	gl.ClearColor(r_float, g_float, b_float, 1.0)
+}

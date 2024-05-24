@@ -2,12 +2,20 @@ package main
 
 import (
 	"log"
+	"math/rand/v2"
+	"time"
 
 	p5go "github.com/stanipetrosyan/p5go"
 )
 
 type model struct {
 }
+
+var (
+	red   int = 1
+	green int = 1
+	blue  int = 1
+)
 
 func main() {
 	p := p5go.NewProgramm(&model{})
@@ -25,5 +33,11 @@ func (m *model) Setup() *p5go.Window {
 }
 
 func (m *model) Draw(window *p5go.Window) {
+	time.Sleep(time.Second / 4)
 
+	window.Background(red, green, blue)
+
+	red = rand.IntN(255)
+	green = rand.IntN(255)
+	blue = rand.IntN(255)
 }
