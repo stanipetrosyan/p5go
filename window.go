@@ -15,8 +15,6 @@ func Canvas(width, height int) *Window {
 		panic(err)
 	}
 
-	gl.Viewport(0, 0, int32(width), int32(height))
-
 	window.MakeContextCurrent()
 
 	return &Window{window: window}
