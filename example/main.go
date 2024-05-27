@@ -12,9 +12,9 @@ type model struct {
 }
 
 var (
-	red   int = 1
-	green int = 1
-	blue  int = 1
+	red   int = rand.IntN(255)
+	green int = rand.IntN(255)
+	blue  int = rand.IntN(255)
 )
 
 func main() {
@@ -40,4 +40,7 @@ func (m *model) Draw(window *p5go.Window) {
 	red = rand.IntN(255)
 	green = rand.IntN(255)
 	blue = rand.IntN(255)
+
+	window.Line(100, 100, 540, 400)
+
 }
