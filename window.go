@@ -7,6 +7,8 @@ import (
 
 type Window struct {
 	window *glfw.Window
+	width  int
+	height int
 }
 
 func Canvas(width, height int) *Window {
@@ -17,7 +19,7 @@ func Canvas(width, height int) *Window {
 
 	window.MakeContextCurrent()
 
-	return &Window{window: window}
+	return &Window{window: window, width: width, height: height}
 }
 
 func (w *Window) Background(red, green, blue int) {
@@ -28,11 +30,10 @@ func (w *Window) Background(red, green, blue int) {
 }
 
 func (w *Window) Line(x1, y1, x2, y2 float32) {
-	// TODO: replace with window size
-	x1f2 := ((x1 / 640) * 2) - 1.0
-	y1f2 := ((y1 / 480) * 2) - 1.0
-	x2f2 := ((x2 / 640) * 2) - 1.0
-	y2f2 := ((y2 / 480) * 2) - 1.0
+	x1f2 := ((x1 / float32(w.width)) * 2) - 1.0
+	y1f2 := ((y1 / float32(w.height)) * 2) - 1.0
+	x2f2 := ((x2 / float32(w.width)) * 2) - 1.0
+	y2f2 := ((y2 / float32(w.height)) * 2) - 1.0
 
 	line := []float32{
 		x1f2, y1f2,
