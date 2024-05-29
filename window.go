@@ -47,6 +47,27 @@ func (w *Window) Line(x1, y1, x2, y2 float32) {
 	gl.DrawArrays(gl.LINES, 0, 2)
 }
 
+func (w *Window) Triangle(x1, y1, x2, y2, x3, y3 float32) {
+	x1f := fromWorldToLocalSpace(x1, w.width)
+	y1f := fromWorldToLocalSpace(y1, w.height)
+	x2f := fromWorldToLocalSpace(x2, w.width)
+	y2f := fromWorldToLocalSpace(y2, w.height)
+	x3f := fromWorldToLocalSpace(x3, w.width)
+	y3f := fromWorldToLocalSpace(y3, w.height)
+
+	triangle := []float32{
+		x1f, y1f,
+		x2f, y2f,
+		x3f, y3f,
+	}
+
+	vbo := generatevbo(triangle)
+	vao := generatevao(vbo)
+
+	gl.BindVertexArray(vao)
+	gl.DrawArrays(gl.TRIANGLES, 0, 3)
+}
+
 func fromWorldToLocalSpace(world float32, axis int) float32 {
 	return ((world / float32(axis)) * 2) - 1.0
 }
@@ -55,7 +76,7 @@ func generatevbo(array []float32) uint32 {
 	var vbo uint32
 	gl.GenBuffers(1, &vbo)
 	gl.BindBuffer(gl.ARRAY_BUFFER, vbo)
-	gl.BufferData(gl.ARRAY_BUFFER, 6*len(array), gl.Ptr(array), gl.STATIC_DRAW)
+	gl.BufferData(gl.ARRAY_BUFFER, 9*len(array), gl.Ptr(array), gl.STATIC_DRAW)
 
 	return vbo
 }

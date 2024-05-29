@@ -2,6 +2,10 @@
 
 2D and 3D graphic development in Golang using Processing Design.
 
+<img src="resources/window_example.png" alt="example"
+	title="p5go" width="400" height="400"/>
+
+
 ### Requirements 
 
 Package required:
@@ -19,3 +23,4 @@ Package required:
 ### 2D
 
 - [x] line()
+- [x] triangle()
