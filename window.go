@@ -30,14 +30,14 @@ func (w *Window) Background(red, green, blue int) {
 }
 
 func (w *Window) Line(x1, y1, x2, y2 float32) {
-	x1f2 := ((x1 / float32(w.width)) * 2) - 1.0
-	y1f2 := ((y1 / float32(w.height)) * 2) - 1.0
-	x2f2 := ((x2 / float32(w.width)) * 2) - 1.0
-	y2f2 := ((y2 / float32(w.height)) * 2) - 1.0
+	x1f := fromWorldToLocalSpace(x1, w.width)
+	y1f := fromWorldToLocalSpace(y1, w.height)
+	x2f := fromWorldToLocalSpace(x2, w.width)
+	y2f := fromWorldToLocalSpace(y2, w.height)
 
 	line := []float32{
-		x1f2, y1f2,
-		x2f2, y2f2,
+		x1f, y1f,
+		x2f, y2f,
 	}
 
 	vbo := generatevbo(line)
@@ -45,6 +45,10 @@ func (w *Window) Line(x1, y1, x2, y2 float32) {
 
 	gl.BindVertexArray(vao)
 	gl.DrawArrays(gl.LINES, 0, 2)
+}
+
+func fromWorldToLocalSpace(world float32, axis int) float32 {
+	return ((world / float32(axis)) * 2) - 1.0
 }
 
 func generatevbo(array []float32) uint32 {
