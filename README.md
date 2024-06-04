@@ -22,12 +22,12 @@ Package required:
 
 
 ### 2D Primitives
-- [] arc()
-- [] circle()
-- [] ellipse()
+- [ ] arc()
+- [ ] circle()
+- [ ] ellipse()
 - [x] line()
-- [] point()
+- [ ] point()
 - [x] quad()
-- [] rect()
-- [] square()
+- [ ] rect()
+- [ ] square()
 - [x] triangle()
