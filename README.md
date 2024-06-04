@@ -24,3 +24,4 @@ Package required:
 
 - [x] line()
 - [x] triangle()
+- [x] quad()

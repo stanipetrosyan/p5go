@@ -42,5 +42,4 @@ func (m *model) Draw(window *p5go.Window) {
 	blue = rand.IntN(255)
 
 	window.Line(100, 100, 540, 400)
-
 }
