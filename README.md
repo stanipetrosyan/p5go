@@ -15,13 +15,19 @@ Package required:
 
 ## Features
 
+
 ### Canvas
 
 - [x] background()
 
 
-### 2D
-
+### 2D Primitives
+- [] arc()
+- [] circle()
+- [] ellipse()
 - [x] line()
-- [x] triangle()
+- [] point()
 - [x] quad()
+- [] rect()
+- [] square()
+- [x] triangle()
