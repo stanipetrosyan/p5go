@@ -41,7 +41,7 @@ func (w *Window) Line(x1, y1, x2, y2 float32) {
 	}
 
 	vbo := generatevbo(line)
-	vao := generatevao(vbo)
+	vao := generate2Dvao(vbo)
 
 	gl.BindVertexArray(vao)
 	gl.DrawArrays(gl.LINES, 0, 2)
@@ -62,7 +62,7 @@ func (w *Window) Triangle(x1, y1, x2, y2, x3, y3 float32) {
 	}
 
 	vbo := generatevbo(triangle)
-	vao := generatevao(vbo)
+	vao := generate2Dvao(vbo)
 
 	gl.BindVertexArray(vao)
 	gl.DrawArrays(gl.TRIANGLES, 0, 3)
@@ -87,10 +87,15 @@ func (w *Window) Quad(x1, y1, x2, y2, x3, y3, x4, y4 float32) {
 	}
 
 	vbo := generatevbo(quad)
-	vao := generatevao(vbo)
+	vao := generate2Dvao(vbo)
 
 	gl.BindVertexArray(vao)
 	gl.DrawArrays(gl.QUADS, 0, 4)
+}
+
+func (w *Window) Rect(x1, y1, width, height float32) {
+	w.Triangle(x1, y1, x1+width, y1, x1, y1+height)
+	w.Triangle(x1+width, y1, x1, y1+height, x1+width, y1+height)
 }
 
 func fromWorldToLocalSpace(world float32, axis int) float32 {
@@ -106,7 +111,7 @@ func generatevbo(array []float32) uint32 {
 	return vbo
 }
 
-func generatevao(vbo uint32) uint32 {
+func generate2Dvao(vbo uint32) uint32 {
 	var vao uint32
 	gl.GenVertexArrays(1, &vao)
 	gl.BindVertexArray(vao)

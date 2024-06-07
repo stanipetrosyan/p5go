@@ -28,6 +28,6 @@ Package required:
 - [x] line()
 - [ ] point()
 - [x] quad()
-- [ ] rect()
-- [ ] square()
+- [x] rect()
+- [x] square()
 - [x] triangle()
