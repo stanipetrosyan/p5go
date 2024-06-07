@@ -98,6 +98,10 @@ func (w *Window) Rect(x1, y1, width, height float32) {
 	w.Triangle(x1+width, y1, x1, y1+height, x1+width, y1+height)
 }
 
+func (w *Window) Square(x1, y1, size float32) {
+	w.Rect(x1, y1, size, size)
+}
+
 func fromWorldToLocalSpace(world float32, axis int) float32 {
 	return ((world / float32(axis)) * 2) - 1.0
 }

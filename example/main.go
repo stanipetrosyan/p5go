@@ -41,5 +41,5 @@ func (m *model) Draw(window *p5go.Window) {
 	green = rand.IntN(255)
 	blue = rand.IntN(255)
 
-	window.Rect(10, 200, 100, 220)
+	window.Rect(10, 200, 220, 220)
 }
