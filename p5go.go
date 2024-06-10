@@ -35,11 +35,9 @@ func (p Programm) Run() error {
 	w := p.proc.Setup()
 
 	for !w.window.ShouldClose() {
-		gl.Clear(gl.COLOR_BUFFER_BIT)
-
 		p.proc.Draw(w)
-		w.window.SwapBuffers()
 		glfw.PollEvents()
+		w.window.SwapBuffers()
 	}
 
 	return err

@@ -23,7 +23,7 @@ Package required:
 
 ### 2D Primitives
 - [ ] arc()
-- [ ] circle()
+- [x] circle()
 - [ ] ellipse()
 - [x] line()
 - [ ] point()

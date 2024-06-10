@@ -1,6 +1,8 @@
 package p5go
 
 import (
+	"math"
+
 	"github.com/go-gl/gl/v4.1-core/gl"
 	"github.com/go-gl/glfw/v3.3/glfw"
 )
@@ -23,6 +25,7 @@ func Canvas(width, height int) *Window {
 }
 
 func (w *Window) Background(red, green, blue int) {
+	gl.Clear(gl.COLOR_BUFFER_BIT)
 	r_float := (1.0 / 255) * float32(red)
 	g_float := (1.0 / 255) * float32(green)
 	b_float := (1.0 / 255) * float32(blue)
@@ -100,6 +103,26 @@ func (w *Window) Rect(x1, y1, width, height float32) {
 
 func (w *Window) Square(x1, y1, size float32) {
 	w.Rect(x1, y1, size, size)
+}
+
+func (w *Window) Circle(x1, y1, radius float32) {
+	triangles := 128
+	twicePi := math.Pi * 2.0
+
+	prevX := x1
+	prevY := y1 - radius
+
+	for i := 0; i <= triangles; i++ {
+		delta := float64(i) * twicePi
+		newX := float64(x1) + (float64(radius) * math.Cos(delta/float64(triangles)))
+		newY := float64(y1) + (float64(radius) * math.Sin(delta/float64(triangles)))
+
+		w.Triangle(x1, y1, prevX, prevY, float32(newX), float32(newY))
+
+		prevX = float32(newX)
+		prevY = float32(newY)
+	}
+
 }
 
 func fromWorldToLocalSpace(world float32, axis int) float32 {
