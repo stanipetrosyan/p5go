@@ -35,7 +35,8 @@ func (m *model) Draw(window *p5go.Window) {
 
 	window.Background(red, green, blue)
 
-	window.Rect(10, 200, 220, 220)
+	window.Rect(700, 800, 220, 220)
 	window.Triangle(500, 200, 600, 400, 700, 200)
-	window.Circle(500, 500, 100)
+	window.Circle(200, 400, 100)
+	window.Ellipse(500, 500, 100, 200)
 }

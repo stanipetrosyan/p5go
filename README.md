@@ -24,7 +24,7 @@ Package required:
 ### 2D Primitives
 - [ ] arc()
 - [x] circle()
-- [ ] ellipse()
+- [x] ellipse()
 - [x] line()
 - [ ] point()
 - [x] quad()
