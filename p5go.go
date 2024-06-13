@@ -1,6 +1,8 @@
 package p5go
 
 import (
+	"time"
+
 	"github.com/go-gl/gl/v4.1-core/gl"
 	"github.com/go-gl/glfw/v3.3/glfw"
 )
@@ -34,10 +36,20 @@ func (p Programm) Run() error {
 
 	w := p.proc.Setup()
 
+	t1 := time.Now().UnixNano()
+
+	space := 1000000000.0 / 60.0
+	//  should be 60 times per second.
 	for !w.window.ShouldClose() {
-		p.proc.Draw(w)
-		glfw.PollEvents()
-		w.window.SwapBuffers()
+
+		t2 := time.Now().UnixNano()
+		if (t2 - t1) > int64(space) {
+			p.proc.Draw(w)
+
+			glfw.PollEvents()
+			w.window.SwapBuffers()
+			t1 = time.Now().UnixNano()
+		}
 	}
 
 	return err
