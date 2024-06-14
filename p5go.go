@@ -44,6 +44,7 @@ func (p Programm) Run() error {
 
 		t2 := time.Now().UnixNano()
 		if (t2 - t1) > int64(space) {
+			w.Background(0, 0, 0)
 			p.proc.Draw(w)
 
 			glfw.PollEvents()
