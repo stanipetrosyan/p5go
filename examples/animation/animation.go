@@ -56,5 +56,5 @@ func (m *model) Draw(window *p5go.Window) {
 	if circleY > 1080-radius || circleY < radius {
 		ydirection *= -1
 	}
-	window.Circle(circleX, circleX, radius)
+	window.Circle(circleX, circleY, radius)
 }
