@@ -35,6 +35,7 @@ func (p Programm) Run() error {
 	}
 
 	w := p.proc.Setup()
+	w.window.MakeContextCurrent()
 
 	t1 := time.Now().UnixNano()
 
@@ -44,10 +45,9 @@ func (p Programm) Run() error {
 
 		t2 := time.Now().UnixNano()
 		if (t2 - t1) > int64(space) {
-			w.Background(0, 0, 0)
 			p.proc.Draw(w)
 
-			glfw.PollEvents()
+			go glfw.PollEvents()
 			w.window.SwapBuffers()
 			t1 = time.Now().UnixNano()
 		}

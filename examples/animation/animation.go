@@ -29,8 +29,8 @@ var (
 	circleX float32 = 100
 	circleY float32 = 100
 
-	xspeed float32 = 2.8
-	yspeed float32 = 2.2
+	xspeed float32 = 10.0
+	yspeed float32 = 1.8
 
 	xdirection float32 = 1.0
 	ydirection float32 = 1.0
