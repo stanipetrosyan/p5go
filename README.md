@@ -57,7 +57,7 @@ func (m *model) Draw(window *p5go.Window) {
 
 
 ### 2D Primitives
-- [x] arc() - BUGGED
+- [x] arc()
 - [x] circle()
 - [x] ellipse()
 - [x] line()

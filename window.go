@@ -114,7 +114,7 @@ func (w *Window) Ellipse(x1, y1, width, height float32) {
 	angle := float32(360 / triangles)
 
 	prevX := x1
-	prevY := y1 - height
+	prevY := y1
 
 	for i := 0; i <= triangles; i++ {
 		newX := float64(x1) + (float64(width) * math.Cos(float64(toRadians(angle*float32(i)))))
@@ -132,7 +132,7 @@ func (w *Window) Arc(x1, y1, width, height, start, stop float32) {
 	angle := float32(360 / triangles)
 
 	prevX := x1
-	prevY := y1 - height
+	prevY := y1
 
 	for i := start; i <= stop; i++ {
 		newX := float64(x1) + (float64(width) * math.Cos(float64(toRadians(angle*float32(i)))))
