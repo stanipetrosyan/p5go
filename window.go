@@ -111,21 +111,42 @@ func (w *Window) Circle(x1, y1, radius float32) {
 
 func (w *Window) Ellipse(x1, y1, width, height float32) {
 	triangles := 360
-	twicePi := math.Pi * 2.0
+	angle := float32(360 / triangles)
 
 	prevX := x1
 	prevY := y1 - height
 
 	for i := 0; i <= triangles; i++ {
-		delta := float64(i) * twicePi
-		newX := float64(x1) + (float64(width) * math.Cos(delta/float64(triangles)))
-		newY := float64(y1) + (float64(height) * math.Sin(delta/float64(triangles)))
+		newX := float64(x1) + (float64(width) * math.Cos(float64(toRadians(angle*float32(i)))))
+		newY := float64(y1) + (float64(height) * math.Sin(float64(toRadians(angle*float32(i)))))
 
 		w.Triangle(x1, y1, prevX, prevY, float32(newX), float32(newY))
 
 		prevX = float32(newX)
 		prevY = float32(newY)
 	}
+}
+
+func (w *Window) Arc(x1, y1, width, height, start, stop float32) {
+	triangles := 360
+	angle := float32(360 / triangles)
+
+	prevX := x1
+	prevY := y1 - height
+
+	for i := start; i <= stop; i++ {
+		newX := float64(x1) + (float64(width) * math.Cos(float64(toRadians(angle*float32(i)))))
+		newY := float64(y1) + (float64(height) * math.Sin(float64(toRadians(angle*float32(i)))))
+
+		w.Triangle(x1, y1, prevX, prevY, float32(newX), float32(newY))
+
+		prevX = float32(newX)
+		prevY = float32(newY)
+	}
+}
+
+func toRadians(degrees float32) float32 {
+	return degrees * math.Pi / 180
 }
 
 func (w *Window) Point(x1, y1 float32) {
