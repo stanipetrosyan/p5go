@@ -6,7 +6,7 @@
 	title="p5go" width="400" height="400"/>
 
 
-### Requirements 
+### Requirements
 
 Package required:
 
@@ -15,7 +15,7 @@ Package required:
 
 ## Get Started
 
-You need to initialize a struct that implements Setup and Draw methods: 
+You need to initialize a struct that implements Setup and Draw methods:
 
 ```go
 type model struct {
@@ -41,7 +41,7 @@ func main() {
 }
 ```
 
-At this point you can draw something: 
+At this point you can draw something:
 
 ```go
 func (m *model) Draw(window *p5go.Window) {
@@ -61,7 +61,7 @@ func (m *model) Draw(window *p5go.Window) {
 - [x] circle()
 - [x] ellipse()
 - [x] line()
-- [ ] point()
+- [x] point()
 - [x] quad()
 - [x] rect()
 - [x] square()

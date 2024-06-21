@@ -110,7 +110,7 @@ func (w *Window) Circle(x1, y1, radius float32) {
 }
 
 func (w *Window) Ellipse(x1, y1, width, height float32) {
-	triangles := 128
+	triangles := 360
 	twicePi := math.Pi * 2.0
 
 	prevX := x1
@@ -126,7 +126,21 @@ func (w *Window) Ellipse(x1, y1, width, height float32) {
 		prevX = float32(newX)
 		prevY = float32(newY)
 	}
+}
 
+func (w *Window) Point(x1, y1 float32) {
+	x1f := fromWorldToLocalSpace(x1, w.width)
+	y1f := fromWorldToLocalSpace(y1, w.height)
+
+	quad := []float32{
+		x1f, y1f,
+	}
+
+	vbo := generatevbo(quad)
+	vao := generate2Dvao(vbo)
+
+	gl.BindVertexArray(vao)
+	gl.DrawArrays(gl.POINTS, 0, 1)
 }
 
 func fromWorldToLocalSpace(world float32, axis int) float32 {

@@ -39,4 +39,5 @@ func (m *model) Draw(window *p5go.Window) {
 	window.Triangle(500, 200, 600, 400, 700, 200)
 	window.Circle(200, 400, 100)
 	window.Ellipse(500, 500, 100, 200)
+	window.Point(20, 20)
 }
