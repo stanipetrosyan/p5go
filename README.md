@@ -30,6 +30,7 @@ func (m *model) Draw(window *p5go.Window) {
 	/*  */
 }
 
+func init() { runtime.LockOSThread() }
 
 func main() {
 	p := p5go.NewProgramm(&model{})
@@ -40,6 +41,12 @@ func main() {
 	}
 }
 ```
+
+Pay attention to
+```go
+func init() { runtime.LockOSThread() }
+```
+You need this to make open gl work properly.
 
 At this point you can draw something:
 

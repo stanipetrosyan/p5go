@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"math/rand/v2"
+	"runtime"
 
 	p5go "github.com/stanipetrosyan/p5go"
 )
@@ -15,6 +16,8 @@ var (
 	green int = rand.IntN(255)
 	blue  int = rand.IntN(255)
 )
+
+func init() { runtime.LockOSThread() }
 
 func main() {
 	p := p5go.NewProgramm(&model{})
