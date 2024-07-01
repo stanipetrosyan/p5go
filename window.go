@@ -7,12 +7,16 @@ import (
 	"github.com/go-gl/glfw/v3.3/glfw"
 )
 
+// Windows struct
 type Window struct {
 	window *glfw.Window
 	width  int
 	height int
 }
 
+// Canvas returns a Window.
+//
+// Parameters should be in pixel.
 func Canvas(width, height int) *Window {
 	window, err := glfw.CreateWindow(width, height, "", nil, nil)
 	if err != nil {
@@ -24,6 +28,9 @@ func Canvas(width, height int) *Window {
 	return &Window{window: window, width: width, height: height}
 }
 
+// Background change color of window.
+//
+// Parameters accepted are RGB values: 0-255
 func (w *Window) Background(red, green, blue int) {
 	gl.Clear(gl.COLOR_BUFFER_BIT)
 	r_float := (1.0 / 255) * float32(red)

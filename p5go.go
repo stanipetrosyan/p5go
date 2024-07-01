@@ -40,7 +40,7 @@ func (p Programm) Run() error {
 	t1 := time.Now().UnixNano()
 
 	space := 1000000000.0 / 60.0
-	//  should be 60 times per second.
+	//  actually draw function is called 60 times per second
 	for !w.window.ShouldClose() {
 
 		t2 := time.Now().UnixNano()
