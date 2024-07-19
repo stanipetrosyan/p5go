@@ -3,9 +3,15 @@ package main
 import (
 	"log"
 	"math/rand/v2"
+	"runtime"
 
 	p5go "github.com/stanipetrosyan/p5go"
 )
+
+func init() {
+	// GLFW event handling must run on the main OS thread
+	runtime.LockOSThread()
+}
 
 type model struct {
 }

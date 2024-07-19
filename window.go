@@ -171,6 +171,13 @@ func (w *Window) Point(x1, y1 float32) {
 	gl.DrawArrays(gl.POINTS, 0, 1)
 }
 
+func (w *Window) Camera(eyeX, eyeY, eyeZ float32) {
+
+}
+
+func (w *Window) Box(x1, y1, size float32) {
+}
+
 func fromWorldToLocalSpace(world float32, axis int) float32 {
 	return ((world / float32(axis)) * 2) - 1.0
 }
