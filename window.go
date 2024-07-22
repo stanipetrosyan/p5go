@@ -5,6 +5,7 @@ import (
 
 	"github.com/go-gl/gl/v4.1-core/gl"
 	"github.com/go-gl/glfw/v3.3/glfw"
+	"github.com/go-gl/mathgl/mgl32"
 )
 
 // Windows struct
@@ -12,6 +13,7 @@ type Window struct {
 	window *glfw.Window
 	width  int
 	height int
+	camera Camera
 }
 
 // Canvas returns a Window.
@@ -23,9 +25,9 @@ func Canvas(width, height int) *Window {
 		panic(err)
 	}
 
-	window.MakeContextCurrent()
+	camera := NewCamera(width, height, mgl32.Vec3{0.0, 0.0, 1.0})
 
-	return &Window{window: window, width: width, height: height}
+	return &Window{window: window, width: width, height: height, camera: camera}
 }
 
 // Background change color of window.
@@ -172,7 +174,7 @@ func (w *Window) Point(x1, y1 float32) {
 }
 
 func (w *Window) Camera(eyeX, eyeY, eyeZ float32) {
-
+	w.camera = NewCamera(w.width, w.height, mgl32.Vec3{eyeX, eyeY, eyeZ})
 }
 
 func (w *Window) Box(x1, y1, size float32) {

@@ -31,10 +31,15 @@ func (m *model) Setup() *p5go.Window {
 	return c
 }
 
+var eyeZ float32 = 0.0
+var distance float32 = 0.1
+
 func (m *model) Draw(window *p5go.Window) {
 	window.Background(red, green, blue)
 
-	window.Camera(70, 35, 120)
+	window.Camera(0.0, 0.0, eyeZ)
 
-	window.Box(200, 200, 200)
+	window.Square(200, 200, 200)
+
+	eyeZ += distance
 }

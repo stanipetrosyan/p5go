@@ -8,7 +8,6 @@ import (
 
 	"github.com/go-gl/gl/v4.1-core/gl"
 	"github.com/go-gl/glfw/v3.3/glfw"
-	"github.com/go-gl/mathgl/mgl32"
 )
 
 type Programm struct {
@@ -64,11 +63,7 @@ func (p Programm) Run() error {
 	}
 
 	gl.DeleteShader(cameraShaderCompiled)
-
 	gl.UseProgram(program)
-	camera := NewCamera(800, 640, mgl32.Vec3{0.0, 0.0, 2.0})
-
-	NewMatrix(program, camera, 45.0, 0.1, 10.0)
 
 	t1 := time.Now().UnixNano()
 	space := 1000000000.0 / 60.0
@@ -77,10 +72,11 @@ func (p Programm) Run() error {
 
 		t2 := time.Now().UnixNano()
 		if (t2 - t1) > int64(space) {
-			p.proc.Draw(w)
+			NewMatrix(program, w.camera, 90.0, 0.1, 10.0)
 
-			glfw.PollEvents()
+			p.proc.Draw(w)
 			w.window.SwapBuffers()
+			glfw.PollEvents()
 			t1 = time.Now().UnixNano()
 		}
 	}
@@ -121,6 +117,6 @@ uniform mat4 model;
 in vec3 vert;
 
 void main() {
-    gl_Position = projection * camera * vec4(vert, 1);
+    gl_Position = projection * camera * model * vec4(vert, 1);
 }
 ` + "\x00"
