@@ -58,6 +58,10 @@ func (m *model) Draw(window *p5go.Window) {
 
 ## Features
 
+### Camera
+
+- [x] camera()
+
 ### Canvas
 
 - [x] background()

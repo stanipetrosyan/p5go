@@ -5,33 +5,31 @@ import (
 	"github.com/go-gl/mathgl/mgl32"
 )
 
-type Matrix struct {
-	FOVdeg    float32
-	nearPlane float32
-	farPlane  float32
-}
-
 type Camera struct {
-	Position    mgl32.Vec3
-	Orientation mgl32.Vec3
-	Up          mgl32.Vec3
-
-	width  int
-	height int
-
-	speed       float32
-	sensitivity float32
+	width    int
+	height   int
+	position mgl32.Vec3
+	center   mgl32.Vec3
+	up       mgl32.Vec3
 }
 
-func NewCamera(width, height int, position mgl32.Vec3) Camera {
+func NewCamera(width, height int, position mgl32.Vec3, center mgl32.Vec3) Camera {
 	return Camera{
-		Position:    position,
-		Orientation: mgl32.Vec3{0.0, 0.0, -1.0},
-		Up:          mgl32.Vec3{0.0, 1.0, 0.0},
-		width:       width,
-		height:      height,
-		speed:       0.1,
-		sensitivity: 100.0,
+		width:    width,
+		height:   height,
+		position: position,
+		center:   center,
+		up:       mgl32.Vec3{0.0, 1.0, 0.0},
+	}
+}
+
+func CenteredCamera(width, height int) Camera {
+	return Camera{
+		position: mgl32.Vec3{0.0, 0.0, 1.0},
+		center:   mgl32.Vec3{0.0, 0.0, 0.0},
+		up:       mgl32.Vec3{0.0, 1.0, 0.0},
+		width:    width,
+		height:   height,
 	}
 }
 
@@ -41,9 +39,9 @@ func NewMatrix(program uint32, camera Camera, FOVdeg, nearPlane, farPlane float3
 	gl.UniformMatrix4fv(projectionUniform, 1, false, &projection[0])
 
 	view := mgl32.LookAt(
-		camera.Position.X(), camera.Position.Y(), camera.Position.Z(),
-		camera.Position.X()+camera.Orientation.X(), camera.Position.Y()+camera.Orientation.Y(), camera.Position.Z()+camera.Orientation.Z(),
-		camera.Up.X(), camera.Up.Y(), camera.Up.Z(),
+		camera.position.X(), camera.position.Y(), camera.position.Z(),
+		camera.center.X(), camera.center.Y(), camera.center.Z(),
+		camera.up.X(), camera.up.Y(), camera.up.Z(),
 	)
 	viewUniform := gl.GetUniformLocation(program, gl.Str("camera\x00"))
 	gl.UniformMatrix4fv(viewUniform, 1, false, &view[0])

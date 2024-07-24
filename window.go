@@ -25,7 +25,7 @@ func Canvas(width, height int) *Window {
 		panic(err)
 	}
 
-	camera := NewCamera(width, height, mgl32.Vec3{0.0, 0.0, 1.0})
+	camera := CenteredCamera(width, height)
 
 	return &Window{window: window, width: width, height: height, camera: camera}
 }
@@ -173,8 +173,8 @@ func (w *Window) Point(x1, y1 float32) {
 	gl.DrawArrays(gl.POINTS, 0, 1)
 }
 
-func (w *Window) Camera(eyeX, eyeY, eyeZ float32) {
-	w.camera = NewCamera(w.width, w.height, mgl32.Vec3{eyeX, eyeY, eyeZ})
+func (w *Window) Camera(eyeX, eyeY, eyeZ float32, centerX, centerY, centerZ float32) {
+	w.camera = NewCamera(w.width, w.height, mgl32.Vec3{eyeX, eyeY, eyeZ}, mgl32.Vec3{centerX, centerY, centerZ})
 }
 
 func (w *Window) Box(x1, y1, size float32) {

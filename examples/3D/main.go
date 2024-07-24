@@ -37,7 +37,7 @@ var distance float32 = 0.1
 func (m *model) Draw(window *p5go.Window) {
 	window.Background(red, green, blue)
 
-	window.Camera(0.0, 0.0, eyeZ)
+	window.Camera(0.0, 0.0, eyeZ, 1.0, 1.0, 0.0)
 
 	window.Square(200, 200, 200)
 
