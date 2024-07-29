@@ -77,3 +77,6 @@ func (m *model) Draw(window *p5go.Window) {
 - [x] rect()
 - [x] square()
 - [x] triangle()
+
+### 3D Primitives
+- [x] box()

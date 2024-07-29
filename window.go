@@ -14,6 +14,7 @@ type Window struct {
 	width  int
 	height int
 	camera Camera
+	shape  Shape
 }
 
 // Canvas returns a Window.
@@ -26,8 +27,17 @@ func Canvas(width, height int) *Window {
 	}
 
 	camera := CenteredCamera(width, height)
+	shape := Shape{
+		width:  width,
+		height: height,
+		depth:  800,
+	}
 
-	return &Window{window: window, width: width, height: height, camera: camera}
+	return &Window{window: window, width: width, height: height, camera: camera, shape: shape}
+}
+
+func (w *Window) Shape() Shape {
+	return w.shape
 }
 
 // Background change color of window.
@@ -177,7 +187,7 @@ func (w *Window) Camera(eyeX, eyeY, eyeZ float32, centerX, centerY, centerZ floa
 	w.camera = NewCamera(w.width, w.height, mgl32.Vec3{eyeX, eyeY, eyeZ}, mgl32.Vec3{centerX, centerY, centerZ})
 }
 
-func (w *Window) Box(x1, y1, size float32) {
+func (w *Window) RotateX(angle float32) {
 }
 
 func fromWorldToLocalSpace(world float32, axis int) float32 {
@@ -188,7 +198,7 @@ func generatevbo(array []float32) uint32 {
 	var vbo uint32
 	gl.GenBuffers(1, &vbo)
 	gl.BindBuffer(gl.ARRAY_BUFFER, vbo)
-	gl.BufferData(gl.ARRAY_BUFFER, 9*len(array), gl.Ptr(array), gl.STATIC_DRAW)
+	gl.BufferData(gl.ARRAY_BUFFER, 4*len(array), gl.Ptr(array), gl.STATIC_DRAW)
 
 	return vbo
 }

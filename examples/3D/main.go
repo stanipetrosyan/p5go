@@ -28,18 +28,18 @@ func main() {
 func (m *model) Setup() *p5go.Window {
 	c := p5go.Canvas(1080, 1080)
 
+	// c.Camera(0.0, 0.0, eyeZ, 0.0, 0.0, 0.0)
 	return c
 }
 
-var eyeZ float32 = 0.0
+var eyeZ float32 = 1.0
 var distance float32 = 0.1
 
 func (m *model) Draw(window *p5go.Window) {
-	window.Background(red, green, blue)
+	// window.Background(red, green, blue)
 
-	window.Camera(0.0, 0.0, eyeZ, 1.0, 1.0, 0.0)
+	window.Shape().Box(200, 200, 200, 200)
+	// window.Square(200, 200, 200)
 
-	window.Square(200, 200, 200)
-
-	eyeZ += distance
+	// eyeZ += distance
 }

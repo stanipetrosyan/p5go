@@ -8,6 +8,7 @@ import (
 
 	"github.com/go-gl/gl/v4.1-core/gl"
 	"github.com/go-gl/glfw/v3.3/glfw"
+	"github.com/go-gl/mathgl/mgl32"
 )
 
 type Programm struct {
@@ -65,6 +66,22 @@ func (p Programm) Run() error {
 	gl.DeleteShader(cameraShaderCompiled)
 	gl.UseProgram(program)
 
+	projection := mgl32.Perspective(mgl32.DegToRad(45.0), float32(w.width/w.height), 0.1, 10.0)
+	projectionUniform := gl.GetUniformLocation(program, gl.Str("projection\x00"))
+	gl.UniformMatrix4fv(projectionUniform, 1, false, &projection[0])
+
+	camera := mgl32.LookAtV(mgl32.Vec3{3, 3, 3}, mgl32.Vec3{0, 0, 0}, mgl32.Vec3{0, 1, 0})
+	cameraUniform := gl.GetUniformLocation(program, gl.Str("camera\x00"))
+	gl.UniformMatrix4fv(cameraUniform, 1, false, &camera[0])
+
+	model := mgl32.Ident4()
+	modelUniform := gl.GetUniformLocation(program, gl.Str("model\x00"))
+	gl.UniformMatrix4fv(modelUniform, 1, false, &model[0])
+
+	vertAttrib := uint32(gl.GetAttribLocation(program, gl.Str("vert\x00")))
+	gl.EnableVertexAttribArray(vertAttrib)
+	gl.VertexAttribPointerWithOffset(vertAttrib, 3, gl.FLOAT, false, 5*4, 0)
+
 	t1 := time.Now().UnixNano()
 	space := 1000000000.0 / 60.0
 	//  actually draw function is called 60 times per second
@@ -72,7 +89,10 @@ func (p Programm) Run() error {
 
 		t2 := time.Now().UnixNano()
 		if (t2 - t1) > int64(space) {
-			NewMatrix(program, w.camera, 90.0, 0.1, 10.0)
+			// NewMatrix(program, w.camera, 45.0, 0.1, 10.0)
+
+			model := mgl32.HomogRotate3D(float32(45), mgl32.Vec3{0, 1, 0})
+			gl.UniformMatrix4fv(modelUniform, 1, false, &model[0])
 
 			p.proc.Draw(w)
 			w.window.SwapBuffers()

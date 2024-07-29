@@ -27,7 +27,7 @@ func CenteredCamera(width, height int) Camera {
 	return Camera{
 		position: mgl32.Vec3{0.0, 0.0, 1.0},
 		center:   mgl32.Vec3{0.0, 0.0, 0.0},
-		up:       mgl32.Vec3{0.0, 1.0, 0.0},
+		up:       mgl32.Vec3{0.0, 0.0, 0.0},
 		width:    width,
 		height:   height,
 	}
@@ -46,6 +46,7 @@ func NewMatrix(program uint32, camera Camera, FOVdeg, nearPlane, farPlane float3
 	viewUniform := gl.GetUniformLocation(program, gl.Str("camera\x00"))
 	gl.UniformMatrix4fv(viewUniform, 1, false, &view[0])
 
+	// model := mgl32.HomogRotate3D(float32(0.0), mgl32.Vec3{0, 1, 0})
 	model := mgl32.Ident4()
 	modelUniform := gl.GetUniformLocation(program, gl.Str("model\x00"))
 	gl.UniformMatrix4fv(modelUniform, 1, false, &model[0])
