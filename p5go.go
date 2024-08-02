@@ -8,11 +8,18 @@ import (
 
 	"github.com/go-gl/gl/v4.1-core/gl"
 	"github.com/go-gl/glfw/v3.3/glfw"
-	"github.com/go-gl/mathgl/mgl32"
+)
+
+type Renderer int
+
+const (
+	P2D Renderer = iota
+	P3D
 )
 
 type Programm struct {
-	proc Processing
+	proc     Processing
+	renderer Renderer
 }
 
 type Processing interface {
@@ -20,8 +27,8 @@ type Processing interface {
 	Draw(*Window)
 }
 
-func NewProgramm(processing Processing) Programm {
-	return Programm{proc: processing}
+func NewProgramm(processing Processing, renderer Renderer) Programm {
+	return Programm{proc: processing, renderer: renderer}
 }
 
 func (p Programm) Run() error {
@@ -40,47 +47,33 @@ func (p Programm) Run() error {
 	if err := gl.Init(); err != nil {
 		return err
 	}
-
-	cameraShaderCompiled, err := compileShader(cameraShader, gl.VERTEX_SHADER)
-	if err != nil {
-		log.Fatal(err)
-	}
-
 	program := gl.CreateProgram()
 
-	gl.AttachShader(program, cameraShaderCompiled)
-	gl.LinkProgram(program)
+	if p.renderer == P3D {
+		cameraShaderCompiled, err := compileShader(cameraShader, gl.VERTEX_SHADER)
+		if err != nil {
+			log.Fatal(err)
+		}
 
-	var status int32
-	gl.GetProgramiv(program, gl.LINK_STATUS, &status)
-	if status == gl.FALSE {
-		var logLength int32
-		gl.GetProgramiv(program, gl.INFO_LOG_LENGTH, &logLength)
+		gl.AttachShader(program, cameraShaderCompiled)
+		gl.LinkProgram(program)
 
-		log := strings.Repeat("\x00", int(logLength+1))
-		gl.GetProgramInfoLog(program, logLength, nil, gl.Str(log))
+		var status int32
+		gl.GetProgramiv(program, gl.LINK_STATUS, &status)
+		if status == gl.FALSE {
+			var logLength int32
+			gl.GetProgramiv(program, gl.INFO_LOG_LENGTH, &logLength)
 
-		return fmt.Errorf("failed to link program: %v", log)
+			log := strings.Repeat("\x00", int(logLength+1))
+			gl.GetProgramInfoLog(program, logLength, nil, gl.Str(log))
+
+			return fmt.Errorf("failed to link program: %v", log)
+		}
+
+		gl.DeleteShader(cameraShaderCompiled)
 	}
 
-	gl.DeleteShader(cameraShaderCompiled)
 	gl.UseProgram(program)
-
-	projection := mgl32.Perspective(mgl32.DegToRad(45.0), float32(w.width/w.height), 0.1, 10.0)
-	projectionUniform := gl.GetUniformLocation(program, gl.Str("projection\x00"))
-	gl.UniformMatrix4fv(projectionUniform, 1, false, &projection[0])
-
-	camera := mgl32.LookAtV(mgl32.Vec3{3, 3, 3}, mgl32.Vec3{0, 0, 0}, mgl32.Vec3{0, 1, 0})
-	cameraUniform := gl.GetUniformLocation(program, gl.Str("camera\x00"))
-	gl.UniformMatrix4fv(cameraUniform, 1, false, &camera[0])
-
-	model := mgl32.Ident4()
-	modelUniform := gl.GetUniformLocation(program, gl.Str("model\x00"))
-	gl.UniformMatrix4fv(modelUniform, 1, false, &model[0])
-
-	vertAttrib := uint32(gl.GetAttribLocation(program, gl.Str("vert\x00")))
-	gl.EnableVertexAttribArray(vertAttrib)
-	gl.VertexAttribPointerWithOffset(vertAttrib, 3, gl.FLOAT, false, 5*4, 0)
 
 	t1 := time.Now().UnixNano()
 	space := 1000000000.0 / 60.0
@@ -89,10 +82,10 @@ func (p Programm) Run() error {
 
 		t2 := time.Now().UnixNano()
 		if (t2 - t1) > int64(space) {
-			// NewMatrix(program, w.camera, 45.0, 0.1, 10.0)
 
-			model := mgl32.HomogRotate3D(float32(45), mgl32.Vec3{0, 1, 0})
-			gl.UniformMatrix4fv(modelUniform, 1, false, &model[0])
+			if p.renderer == P3D {
+				NewMatrix(program, w.camera, 45.0, 0.1, 10.0)
+			}
 
 			p.proc.Draw(w)
 			w.window.SwapBuffers()

@@ -3,9 +3,12 @@ package main
 import (
 	"log"
 	"math/rand/v2"
+	"runtime"
 
 	p5go "github.com/stanipetrosyan/p5go"
 )
+
+func init() { runtime.LockOSThread() }
 
 type model struct {
 }
@@ -17,7 +20,7 @@ var (
 )
 
 func main() {
-	p := p5go.NewProgramm(&model{})
+	p := p5go.NewProgramm(&model{}, p5go.P3D)
 
 	err := p.Run()
 	if err != nil {
@@ -26,20 +29,13 @@ func main() {
 }
 
 func (m *model) Setup() *p5go.Window {
-	c := p5go.Canvas(1080, 1080)
+	c := p5go.Canvas3D(1080, 1080, 1080)
 
-	// c.Camera(0.0, 0.0, eyeZ, 0.0, 0.0, 0.0)
 	return c
 }
 
-var eyeZ float32 = 1.0
-var distance float32 = 0.1
-
 func (m *model) Draw(window *p5go.Window) {
-	// window.Background(red, green, blue)
+	window.Background(red, green, blue)
 
 	window.Shape().Box(200, 200, 200, 200)
-	// window.Square(200, 200, 200)
-
-	// eyeZ += distance
 }

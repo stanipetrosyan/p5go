@@ -20,7 +20,7 @@ var (
 func init() { runtime.LockOSThread() }
 
 func main() {
-	p := p5go.NewProgramm(&model{})
+	p := p5go.NewProgramm(&model{}, p5go.P2D)
 
 	err := p.Run()
 	if err != nil {
@@ -42,7 +42,7 @@ var (
 )
 
 func (m *model) Setup() *p5go.Window {
-	c := p5go.Canvas(1080, 1080)
+	c := p5go.Canvas2D(1080, 1080)
 
 	return c
 }

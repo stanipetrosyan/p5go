@@ -25,9 +25,9 @@ func NewCamera(width, height int, position mgl32.Vec3, center mgl32.Vec3) Camera
 
 func CenteredCamera(width, height int) Camera {
 	return Camera{
-		position: mgl32.Vec3{0.0, 0.0, 1.0},
+		position: mgl32.Vec3{0.0, 0.0, 2.0},
 		center:   mgl32.Vec3{0.0, 0.0, 0.0},
-		up:       mgl32.Vec3{0.0, 0.0, 0.0},
+		up:       mgl32.Vec3{0.0, 1.0, 0.0},
 		width:    width,
 		height:   height,
 	}

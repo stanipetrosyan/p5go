@@ -13,6 +13,7 @@ type Window struct {
 	window *glfw.Window
 	width  int
 	height int
+	depth  int
 	camera Camera
 	shape  Shape
 }
@@ -20,7 +21,16 @@ type Window struct {
 // Canvas returns a Window.
 //
 // Parameters should be in pixel.
-func Canvas(width, height int) *Window {
+func Canvas2D(width, height int) *Window {
+	window, err := glfw.CreateWindow(width, height, "", nil, nil)
+	if err != nil {
+		panic(err)
+	}
+
+	return &Window{window: window, width: width, height: height}
+}
+
+func Canvas3D(width, height, depth int) *Window {
 	window, err := glfw.CreateWindow(width, height, "", nil, nil)
 	if err != nil {
 		panic(err)
@@ -30,10 +40,10 @@ func Canvas(width, height int) *Window {
 	shape := Shape{
 		width:  width,
 		height: height,
-		depth:  800,
+		depth:  depth,
 	}
 
-	return &Window{window: window, width: width, height: height, camera: camera, shape: shape}
+	return &Window{window: window, width: width, height: height, depth: depth, camera: camera, shape: shape}
 }
 
 func (w *Window) Shape() Shape {

@@ -23,7 +23,7 @@ type model struct {
 }
 
 func (m *model) Setup() *p5go.Window {
-	return p5go.Canvas(500, 500)
+	return p5go.Canvas2D(500, 500)
 }
 
 func (m *model) Draw(window *p5go.Window) {
@@ -33,7 +33,7 @@ func (m *model) Draw(window *p5go.Window) {
 func init() { runtime.LockOSThread() }
 
 func main() {
-	p := p5go.NewProgramm(&model{})
+	p := p5go.NewProgramm(&model{}, p5go.P2D)
 
 	err := p.Run()
 	if err != nil {

@@ -8,10 +8,7 @@ import (
 	p5go "github.com/stanipetrosyan/p5go"
 )
 
-func init() {
-	// GLFW event handling must run on the main OS thread
-	runtime.LockOSThread()
-}
+func init() { runtime.LockOSThread() }
 
 type model struct {
 }
@@ -23,7 +20,7 @@ var (
 )
 
 func main() {
-	p := p5go.NewProgramm(&model{})
+	p := p5go.NewProgramm(&model{}, p5go.P2D)
 
 	err := p.Run()
 	if err != nil {
@@ -32,7 +29,7 @@ func main() {
 }
 
 func (m *model) Setup() *p5go.Window {
-	c := p5go.Canvas(1080, 1080)
+	c := p5go.Canvas2D(1080, 1080)
 
 	return c
 }
