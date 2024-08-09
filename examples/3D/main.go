@@ -37,8 +37,8 @@ func (m *model) Setup() *p5go.Window {
 
 func (m *model) Draw(window *p5go.Window) {
 	window.Background(red, green, blue)
-	window.Camera().RotateY(angleX)
-	window.Shape().Box(200, 200, 200, 200)s
+	window.Camera().RotateZ(angleX)
+	window.Shape().Box(200, 200, 200, 200)
 
 	angleX += 0.1
 }
