@@ -14,9 +14,10 @@ type model struct {
 }
 
 var (
-	red   int = rand.IntN(255)
-	green int = rand.IntN(255)
-	blue  int = rand.IntN(255)
+	red    int     = rand.IntN(255)
+	green  int     = rand.IntN(255)
+	blue   int     = rand.IntN(255)
+	angleX float32 = 1.0
 )
 
 func main() {
@@ -36,6 +37,8 @@ func (m *model) Setup() *p5go.Window {
 
 func (m *model) Draw(window *p5go.Window) {
 	window.Background(red, green, blue)
+	window.Camera().RotateY(angleX)
+	window.Shape().Box(200, 200, 200, 200)s
 
-	window.Shape().Box(200, 200, 200, 200)
+	angleX += 0.1
 }

@@ -5,7 +5,6 @@ import (
 
 	"github.com/go-gl/gl/v4.1-core/gl"
 	"github.com/go-gl/glfw/v3.3/glfw"
-	"github.com/go-gl/mathgl/mgl32"
 )
 
 // Windows struct
@@ -44,6 +43,10 @@ func Canvas3D(width, height, depth int) *Window {
 	}
 
 	return &Window{window: window, width: width, height: height, depth: depth, camera: camera, shape: shape}
+}
+
+func (w *Window) Camera() *Camera {
+	return &w.camera
 }
 
 func (w *Window) Shape() Shape {
@@ -191,13 +194,6 @@ func (w *Window) Point(x1, y1 float32) {
 
 	gl.BindVertexArray(vao)
 	gl.DrawArrays(gl.POINTS, 0, 1)
-}
-
-func (w *Window) Camera(eyeX, eyeY, eyeZ float32, centerX, centerY, centerZ float32) {
-	w.camera = NewCamera(w.width, w.height, mgl32.Vec3{eyeX, eyeY, eyeZ}, mgl32.Vec3{centerX, centerY, centerZ})
-}
-
-func (w *Window) RotateX(angle float32) {
 }
 
 func fromWorldToLocalSpace(world float32, axis int) float32 {
