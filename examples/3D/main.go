@@ -21,7 +21,7 @@ var (
 )
 
 func main() {
-	p := p5go.NewProgramm(&model{}, p5go.P3D)
+	p := p5go.NewProgram(&model{}, p5go.P3D)
 
 	err := p.Run()
 	if err != nil {

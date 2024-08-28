@@ -18,7 +18,7 @@ const (
 	P3D
 )
 
-type Programm struct {
+type Program struct {
 	proc     Processing
 	renderer Renderer
 }
@@ -28,11 +28,11 @@ type Processing interface {
 	Draw(*Window)
 }
 
-func NewProgramm(processing Processing, renderer Renderer) Programm {
-	return Programm{proc: processing, renderer: renderer}
+func NewProgram(processing Processing, renderer Renderer) Program {
+	return Program{proc: processing, renderer: renderer}
 }
 
-func (p Programm) Run() error {
+func (p Program) Run() error {
 	var err error = nil
 
 	err = glfw.Init()
@@ -85,7 +85,7 @@ func (p Programm) Run() error {
 		if (t2 - t1) > int64(space) {
 
 			if p.renderer == P3D {
-				RenderMatrix(program, w.camera, 45.0, 0.1, 10.0)
+				renderMatrix(program, w.camera, 45.0, 0.1, 10.0)
 			}
 
 			p.proc.Draw(w)
@@ -121,7 +121,7 @@ func compileShader(source string, shaderType uint32) (uint32, error) {
 	return shader, nil
 }
 
-func RenderMatrix(program uint32, camera Camera, FOVdeg, nearPlane, farPlane float32) {
+func renderMatrix(program uint32, camera Camera, FOVdeg, nearPlane, farPlane float32) {
 	projection := mgl32.Perspective(mgl32.DegToRad(FOVdeg), float32(camera.width/camera.height), nearPlane, farPlane)
 	projectionUniform := gl.GetUniformLocation(program, gl.Str("projection\x00"))
 	gl.UniformMatrix4fv(projectionUniform, 1, false, &projection[0])
@@ -134,23 +134,28 @@ func RenderMatrix(program uint32, camera Camera, FOVdeg, nearPlane, farPlane flo
 	viewUniform := gl.GetUniformLocation(program, gl.Str("camera\x00"))
 	gl.UniformMatrix4fv(viewUniform, 1, false, &view[0])
 
-	var model mgl32.Mat4
-	switch {
-	case camera.rotation.X() > 0:
-		model = mgl32.HomogRotate3DX(camera.rotation.X())
-	case camera.rotation.Y() > 0:
-		model = mgl32.HomogRotate3DY(camera.rotation.Y())
-	case camera.rotation.Z() > 0:
-		model = mgl32.HomogRotate3DZ(camera.rotation.Z())
-	default:
-		model = mgl32.Ident4()
-	}
-	modelUniform := gl.GetUniformLocation(program, gl.Str("model\x00"))
-	gl.UniformMatrix4fv(modelUniform, 1, false, &model[0])
+	uniformModel(camera.rotation, program)
 
 	vertAttrib := uint32(gl.GetAttribLocation(program, gl.Str("vert\x00")))
 	gl.EnableVertexAttribArray(vertAttrib)
 	gl.VertexAttribPointerWithOffset(vertAttrib, 3, gl.FLOAT, false, 5*4, 0)
+}
+
+func uniformModel(vec mgl32.Vec3, program uint32) {
+	var model mgl32.Mat4
+	switch {
+	case vec.X() > 0:
+		model = mgl32.HomogRotate3DX(vec.X())
+	case vec.Y() > 0:
+		model = mgl32.HomogRotate3DY(vec.Y())
+	case vec.Z() > 0:
+		model = mgl32.HomogRotate3DZ(vec.Z())
+	default:
+		model = mgl32.Ident4()
+	}
+
+	modelUniform := gl.GetUniformLocation(program, gl.Str("model\x00"))
+	gl.UniformMatrix4fv(modelUniform, 1, false, &model[0])
 }
 
 var cameraShader = `

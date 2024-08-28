@@ -33,7 +33,7 @@ func (m *model) Draw(window *p5go.Window) {
 func init() { runtime.LockOSThread() }
 
 func main() {
-	p := p5go.NewProgramm(&model{}, p5go.P2D)
+	p := p5go.NewProgram(&model{}, p5go.P2D)
 
 	err := p.Run()
 	if err != nil {
