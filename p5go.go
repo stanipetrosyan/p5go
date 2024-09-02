@@ -85,7 +85,7 @@ func (p Program) Run() error {
 		if (t2 - t1) > int64(space) {
 
 			if p.renderer == P3D {
-				renderMatrix(program, w.camera, 45.0, 0.1, 10.0)
+				renderMatrix(program, w.camera)
 			}
 
 			p.proc.Draw(w)
@@ -121,8 +121,8 @@ func compileShader(source string, shaderType uint32) (uint32, error) {
 	return shader, nil
 }
 
-func renderMatrix(program uint32, camera Camera, FOVdeg, nearPlane, farPlane float32) {
-	projection := mgl32.Perspective(mgl32.DegToRad(FOVdeg), float32(camera.width/camera.height), nearPlane, farPlane)
+func renderMatrix(program uint32, camera Camera) {
+	projection := mgl32.Perspective(mgl32.DegToRad(camera.FOV), float32(camera.width/camera.height), camera.nearPlane, camera.farPlane)
 	projectionUniform := gl.GetUniformLocation(program, gl.Str("projection\x00"))
 	gl.UniformMatrix4fv(projectionUniform, 1, false, &projection[0])
 

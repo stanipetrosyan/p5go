@@ -61,6 +61,10 @@ func (m *model) Draw(window *p5go.Window) {
 ### Camera
 
 - [x] camera()
+- [x] rotateX()
+- [x] rotateY()
+- [x] rotateZ()
+- [x] perspective()
 
 ### Canvas
 
