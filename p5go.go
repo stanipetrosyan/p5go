@@ -50,28 +50,26 @@ func (p Program) Run() error {
 	}
 	program := gl.CreateProgram()
 
+	fragmentShaderCompiled, err := compileShader(fragmentShader, gl.FRAGMENT_SHADER)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	err = attachShader(program, fragmentShaderCompiled)
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	if p.renderer == P3D {
 		cameraShaderCompiled, err := compileShader(cameraShader, gl.VERTEX_SHADER)
 		if err != nil {
 			log.Fatal(err)
 		}
 
-		gl.AttachShader(program, cameraShaderCompiled)
-		gl.LinkProgram(program)
-
-		var status int32
-		gl.GetProgramiv(program, gl.LINK_STATUS, &status)
-		if status == gl.FALSE {
-			var logLength int32
-			gl.GetProgramiv(program, gl.INFO_LOG_LENGTH, &logLength)
-
-			log := strings.Repeat("\x00", int(logLength+1))
-			gl.GetProgramInfoLog(program, logLength, nil, gl.Str(log))
-
-			return fmt.Errorf("failed to link program: %v", log)
+		err = attachShader(program, cameraShaderCompiled)
+		if err != nil {
+			log.Fatal(err)
 		}
-
-		gl.DeleteShader(cameraShaderCompiled)
 	}
 
 	gl.UseProgram(program)
@@ -80,6 +78,7 @@ func (p Program) Run() error {
 	space := 1000000000.0 / 60.0
 	//  actually draw function is called 60 times per second
 	for !w.window.ShouldClose() {
+		gl.UseProgram(program)
 
 		t2 := time.Now().UnixNano()
 		if (t2 - t1) > int64(space) {
@@ -87,6 +86,9 @@ func (p Program) Run() error {
 			if p.renderer == P3D {
 				renderMatrix(program, w.camera)
 			}
+
+			colorUniform := gl.GetUniformLocation(program, gl.Str("shapesColor\x00"))
+			gl.Uniform3f(colorUniform, w.color[0], w.color[1], w.color[2])
 
 			p.proc.Draw(w)
 			w.window.SwapBuffers()
@@ -97,6 +99,26 @@ func (p Program) Run() error {
 	}
 
 	return err
+}
+
+func attachShader(program uint32, shader uint32) error {
+	gl.AttachShader(program, shader)
+	gl.LinkProgram(program)
+
+	var status int32
+	gl.GetProgramiv(program, gl.LINK_STATUS, &status)
+	if status == gl.FALSE {
+		var logLength int32
+		gl.GetProgramiv(program, gl.INFO_LOG_LENGTH, &logLength)
+
+		log := strings.Repeat("\x00", int(logLength+1))
+		gl.GetProgramInfoLog(program, logLength, nil, gl.Str(log))
+
+		return fmt.Errorf("failed to link program: %v", log)
+	}
+
+	gl.DeleteShader(shader)
+	return nil
 }
 
 func compileShader(source string, shaderType uint32) (uint32, error) {
@@ -170,5 +192,18 @@ in vec3 vert;
 
 void main() {
     gl_Position = projection * camera * model * vec4(vert, 1);
+}
+` + "\x00"
+
+var fragmentShader = `
+#version 330 core
+
+uniform vec3 shapesColor;
+
+out vec4 outColor;
+
+void main()
+{
+    outColor = vec4(shapesColor, 1.0);
 }
 ` + "\x00"

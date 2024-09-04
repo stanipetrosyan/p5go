@@ -5,6 +5,7 @@ import (
 
 	"github.com/go-gl/gl/v4.1-core/gl"
 	"github.com/go-gl/glfw/v3.3/glfw"
+	"github.com/go-gl/mathgl/mgl32"
 )
 
 // Windows struct
@@ -17,6 +18,7 @@ type Window struct {
 	shape  Shape
 	mouseX float64
 	mouseY float64
+	color  mgl32.Mat3
 }
 
 // Canvas2D returns a Window with width and height.
@@ -27,8 +29,8 @@ func Canvas2D(width, height int) *Window {
 	if err != nil {
 		panic(err)
 	}
-
-	return &Window{window: window, width: width, height: height}
+	standardColor := mgl32.Mat3{1.0, 1.0, 1.0}
+	return &Window{window: window, width: width, height: height, color: standardColor}
 }
 
 // Canvas3D returns a Window with width, height and depth.
@@ -46,8 +48,9 @@ func Canvas3D(width, height, depth int) *Window {
 		height: height,
 		depth:  depth,
 	}
+	standardColor := mgl32.Mat3{1.0, 1.0, 1.0}
 
-	return &Window{window: window, width: width, height: height, depth: depth, camera: camera, shape: shape}
+	return &Window{window: window, width: width, height: height, depth: depth, camera: camera, shape: shape, color: standardColor}
 }
 
 // Returns Camera object with default values:
@@ -95,6 +98,17 @@ func (w *Window) Background(red, green, blue int) {
 	g_float := (1.0 / 255) * float32(green)
 	b_float := (1.0 / 255) * float32(blue)
 	gl.ClearColor(r_float, g_float, b_float, 1.0)
+}
+
+// Fill change color of shapes.
+//
+// Parameters accepted are RGB values: 0-255
+func (w *Window) Fill(red, green, blue int) {
+	r_float := (1.0 / 255) * float32(red)
+	g_float := (1.0 / 255) * float32(green)
+	b_float := (1.0 / 255) * float32(blue)
+
+	w.color = mgl32.Mat3{r_float, g_float, b_float}
 }
 
 func (w *Window) Line(x1, y1, x2, y2 float32) {

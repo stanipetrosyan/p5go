@@ -74,6 +74,7 @@ func (m *model) Draw(window *p5go.Window) {
 ### Canvas
 
 - [x] background()
+- [x] fill()
 
 
 ### 2D Primitives

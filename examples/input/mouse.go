@@ -36,6 +36,7 @@ func (m *model) Setup() *p5go.Window {
 
 func (m *model) Draw(window *p5go.Window) {
 	window.Background(red, green, blue)
+	window.Fill(16, 200, 13)
 
 	window.Rect(window.MouseX(), window.Height()/2, window.MouseY()/2+10, window.MouseY()/2+10)
 	inverseX := window.Width() - window.MouseX()
