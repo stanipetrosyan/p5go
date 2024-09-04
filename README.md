@@ -66,6 +66,11 @@ func (m *model) Draw(window *p5go.Window) {
 - [x] rotateZ()
 - [x] perspective()
 
+### Input
+
+- [x] mouseX()
+- [x] mouseY()
+
 ### Canvas
 
 - [x] background()

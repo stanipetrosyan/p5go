@@ -15,6 +15,8 @@ type Window struct {
 	depth  int
 	camera Camera
 	shape  Shape
+	mouseX float64
+	mouseY float64
 }
 
 // Canvas2D returns a Window with width and height.
@@ -62,6 +64,26 @@ func (w *Window) Camera() *Camera {
 
 func (w *Window) Shape() Shape {
 	return w.shape
+}
+
+// Returns height of window
+func (w *Window) Height() float32 {
+	return float32(w.height)
+}
+
+// Returns width of window
+func (w *Window) Width() float32 {
+	return float32(w.width)
+}
+
+// Returns current x-axis position of mouse
+func (w *Window) MouseX() float32 {
+	return float32(w.mouseX)
+}
+
+// Returns current y-axis position of mouse
+func (w *Window) MouseY() float32 {
+	return float32(w.mouseY)
 }
 
 // Background change color of window.

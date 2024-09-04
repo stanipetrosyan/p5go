@@ -91,6 +91,7 @@ func (p Program) Run() error {
 			p.proc.Draw(w)
 			w.window.SwapBuffers()
 			glfw.PollEvents()
+			w.mouseX, w.mouseY = glfw.GetCurrentContext().GetCursorPos()
 			t1 = time.Now().UnixNano()
 		}
 	}
