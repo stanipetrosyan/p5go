@@ -40,6 +40,11 @@ func (p Program) Run() error {
 		return err
 	}
 
+	glfw.WindowHint(glfw.ContextVersionMajor, 3)
+	glfw.WindowHint(glfw.ContextVersionMinor, 3)
+	glfw.WindowHint(glfw.OpenGLForwardCompatible, glfw.True)
+	glfw.WindowHint(glfw.OpenGLProfile, glfw.OpenGLCoreProfile)
+
 	defer glfw.Terminate()
 
 	w := p.proc.Setup()
